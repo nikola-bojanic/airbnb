@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
+    <changeSet id="1" author="Nikola Bojanic">
+        <createTable tableName="user">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(20)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(50)">
+            </column>
+            <column name="last_name" type="VARCHAR(50)">
+            </column>
+            <column name="gender" type="VARCHAR(15)">
+            </column>
+            <column name="role" type="VARCHAR(15)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="address">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="street" type="VARCHAR(75)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="house_number" type="VARCHAR(25)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city" type="VARCHAR(75)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zipcode" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="location">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="latitude" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="longitude" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address_id" type="BIGINT">
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="location" baseColumnNames="address_id"
+                                 constraintName="fk_location_address" referencedTableName="address"
+                                 referencedColumnNames="id"/>
+        <createTable tableName="apartment">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(75)">
+            </column>
+            <column name="number_of_rooms" type="INT">
+            </column>
+            <column name="number_of_guests" type="INT">
+            </column>
+            <column name="location_id" type="BIGINT">
+            </column>
+            <column name="host_id" type="BIGINT">
+            </column>
+            <column name="guest_id" type="BIGINT">
+            </column>
+            <column name="price_by_night" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="check_in_time" type="DATETIME">
+            </column>
+            <column name="checkout_time" type="DATETIME">
+            </column>
+            <column name="status" type="VARCHAR(15)">
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="apartment" baseColumnNames="location_id"
+                                 constraintName="fk_apartment_location" referencedTableName="location"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="apartment" baseColumnNames="host_id"
+                                 constraintName="fk_apartment_host" referencedTableName="user"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="apartment" baseColumnNames="guest_id"
+                                 constraintName="fk_apartment_guest" referencedTableName="user"
+                                 referencedColumnNames="id"/>
+        <createTable tableName="amenity">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(75)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="apartment_id" type="BIGINT">
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="amenity" baseColumnNames="apartment_id"
+                                 constraintName="fk_amenity_apartment" referencedTableName="apartment"
+                                 referencedColumnNames="id"/>
+        <createTable tableName="availability_date">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="apartment_id" type="BIGINT">
+            </column>
+            <column name="date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="availability_date" baseColumnNames="apartment_id"
+                                 constraintName="fk_availability_date_apartment" referencedTableName="apartment"
+                                 referencedColumnNames="id"/>
+        <createTable tableName="rental_date">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="apartment_id" type="BIGINT">
+            </column>
+            <column name="date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="rental_date" baseColumnNames="apartment_id"
+                                 constraintName="fk_rental_date_apartment" referencedTableName="apartment"
+                                 referencedColumnNames="id"/>
+        <createTable tableName="picture_url">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="url" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="apartment_id" type="BIGINT">
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="picture_url" baseColumnNames="apartment_id"
+                                 constraintName="fk_picture_url_apartment" referencedTableName="apartment"
+                                 referencedColumnNames="id"/>
+        <createTable tableName="comment">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="guest_id" type="BIGINT">
+            </column>
+            <column name="apartment_id" type="BIGINT">
+            </column>
+            <column name="text" type="VARCHAR(500)">
+            </column>
+            <column name="rating" type="INT">
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="comment" baseColumnNames="guest_id"
+                                 constraintName="fk_comment_guest" referencedTableName="user"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="comment" baseColumnNames="apartment_id"
+                                 constraintName="fk_comment_apartment" referencedTableName="apartment"
+                                 referencedColumnNames="id"/>
+        <createTable tableName="reservation">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="apartment_id" type="BIGINT">
+            </column>
+            <column name="start_date" type="DATE">
+            </column>
+            <column name="number_of_nights" type="INT">
+            </column>
+            <column name="total_price" type="DOUBLE">
+            </column>
+            <column name="guest_id" type="BIGINT">
+            </column>
+            <column name="status" type="VARCHAR(25)">
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="reservation" baseColumnNames="guest_id"
+                                 constraintName="fk_reservation_apartment" referencedTableName="apartment"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="reservation" baseColumnNames="apartment_id"
+                                 constraintName="fk_reservation_guest" referencedTableName="user"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>
