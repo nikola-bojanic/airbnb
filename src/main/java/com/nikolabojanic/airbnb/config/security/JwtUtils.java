@@ -22,14 +22,6 @@ public class JwtUtils {
     @Value("${app.jwt.expiration-time}")
     private long jwtExpiration;
 
-    public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
-    }
-
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
 
     public String buildToken(
         Map<String, Object> extraClaims,
@@ -43,15 +35,6 @@ public class JwtUtils {
             .expiration(new Date(System.currentTimeMillis() + expiration))
             .signWith(getKey(), SignatureAlgorithm.HS256)
             .compact();
-    }
-
-    private Claims extractAllClaims(String token) {
-        return Jwts
-            .parser()
-            .setSigningKey(getKey())
-            .build()
-            .parseClaimsJws(token)
-            .getBody();
     }
 
     public SecretKey getKey() {
