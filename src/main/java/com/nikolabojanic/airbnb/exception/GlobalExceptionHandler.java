@@ -13,6 +13,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+
+    @ExceptionHandler(value = AirbnbEntityNotFoundException.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    public ResponseEntity<Object> handleAirbnbEntityNotFoundException(
+        AirbnbEntityNotFoundException e, WebRequest request) {
+        return handleException(e, HttpStatus.NOT_FOUND, request);
+    }
+
     @ExceptionHandler(value = AirbnbValidationException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ResponseEntity<Object> handleAirbnbValidationException(AirbnbValidationException e, WebRequest request) {

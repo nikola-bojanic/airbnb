@@ -188,4 +188,12 @@
                                  constraintName="fk_reservation_guest" referencedTableName="user"
                                  referencedColumnNames="id"/>
     </changeSet>
+    <changeSet id="2" author="Nikola Bojanic">
+        <sql>
+            INSERT INTO "user" (username, password, first_name, last_name, gender, role)
+            VALUES ('johndoe', '$2a$12$PMBYOgXgiVD6rKzXWVy/CesZDEdU8LBfoQUtYYTGL/DzF7DJGS1Zi', 'john', 'doe', 'MALE' , 'ADMIN');
+            INSERT INTO "user" (username, password, first_name, last_name, gender, role)
+            VALUES ('janedoe', '$2a$12$CJR8n3oPqUgLcIMPYUiiKOKax83b9YhrjHVnakcYu5rMW8nkVHT9u', 'jane', 'doe', 'FEMALE', 'ADMIN');
+        </sql>
+    </changeSet>
 </databaseChangeLog>
