@@ -1,7 +1,5 @@
 package com.nikolabojanic.airbnb.dto;
 
-import com.nikolabojanic.airbnb.entity.ApartmentEntity;
-import com.nikolabojanic.airbnb.entity.ReservationEntity;
 import com.nikolabojanic.airbnb.enumeration.UserGender;
 import com.nikolabojanic.airbnb.enumeration.UserRole;
 import java.util.List;
