@@ -1,63 +1,63 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.2.4'
-	id 'io.spring.dependency-management' version '1.1.4'
-	id 'jacoco'
-	id "org.sonarqube" version "4.4.1.3373"
-	id 'checkstyle'
+    id 'java'
+    id 'org.springframework.boot' version '3.2.4'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'jacoco'
+    id "org.sonarqube" version "4.4.1.3373"
+    id 'checkstyle'
 }
 
 group = 'com.nikolabojanic'
 
 java {
-	sourceCompatibility = '21'
+    sourceCompatibility = '21'
 }
 
 checkstyle {
-	configFile = rootProject.file("${project.rootDir}/config/checkstyle/checkstyle.xml")
+    configFile = rootProject.file("${project.rootDir}/config/checkstyle/checkstyle.xml")
 }
 
 sonar {
-	properties {
-		property "sonar.projectKey", "airbnb"
-		property "sonar.projectName", "airbnb"
-		property "sonar.host.url", "http://localhost:9000"
-		property "sonar.token", "sqp_7b8c35ccdc8ef9d2305cf49a3052915d3b628edc"
-		property "sonar.jacoco.reportPaths", "airbnb/build/reports/jacoco/test/jacocoTestReport.xml"
-		property "sonar.login", "admin"
-		property "sonar.password", "sonar"
-	}
+    properties {
+        property "sonar.projectKey", "airbnb"
+        property "sonar.projectName", "airbnb"
+        property "sonar.host.url", "http://localhost:9000"
+        property "sonar.token", "sqp_7b8c35ccdc8ef9d2305cf49a3052915d3b628edc"
+        property "sonar.jacoco.reportPaths", "airbnb/build/reports/jacoco/test/jacocoTestReport.xml"
+        property "sonar.login", "admin"
+        property "sonar.password", "sonar"
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.postgresql:postgresql:42.7.1'
-	implementation 'org.liquibase:liquibase-core:4.25.1'
-	implementation 'org.liquibase:liquibase-gradle-plugin:2.2.1'
-	implementation 'ch.qos.logback:logback-classic:1.4.14'
-	implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
-	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
-	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.postgresql:postgresql:42.7.1'
+    implementation 'org.liquibase:liquibase-core:4.25.1'
+    implementation 'org.liquibase:liquibase-gradle-plugin:2.2.1'
+    implementation 'ch.qos.logback:logback-classic:1.4.14'
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
-	finalizedBy jacocoTestReport
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
 }
 
 jacocoTestReport {
-	dependsOn test
-	reports {
-		xml.required = true
-	}
+    dependsOn test
+    reports {
+        xml.required = true
+    }
 }

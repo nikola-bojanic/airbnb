@@ -8,8 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,7 +18,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
@@ -56,7 +55,10 @@ public class CredentialsAuthenticationFilter extends AbstractAuthenticationProce
         Authentication authResult) throws IOException {
         User user = (User) authResult.getPrincipal();
         Map<String, Object> claims = new HashMap<>();
-        claims.put("roles", user.getAuthorities());
+        Collection<String> roles = authResult.getAuthorities().stream()
+            .map(GrantedAuthority::getAuthority)
+            .toList();
+        claims.put("roles", roles);
         AuthDtoResponse authDtoResponse = new AuthDtoResponse(
             jwtUtils.buildToken(claims, user, jwtUtils.getJwtExpiration()));
         String jsonResponse = objectMapper.writeValueAsString(authDtoResponse);

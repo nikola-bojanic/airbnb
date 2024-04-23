@@ -7,7 +7,6 @@ import com.nikolabojanic.airbnb.enumeration.UserRole;
 import com.nikolabojanic.airbnb.exception.AirbnbEntityNotFoundException;
 import com.nikolabojanic.airbnb.repository.UserRepository;
 import java.util.Optional;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -48,5 +47,9 @@ public class UserService {
         UserEntity user = findByUsername(username);
         user.setRole(UserRole.HOST);
         userRepository.save(user);
+    }
+
+    public UserEntity updateUser(UserEntity updateRequest) {
+        return userRepository.save(updateRequest);
     }
 }
