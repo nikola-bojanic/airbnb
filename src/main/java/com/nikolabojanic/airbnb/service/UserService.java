@@ -46,7 +46,7 @@ public class UserService {
 
     public void createHost(String username) {
         UserEntity user = findByUsername(username);
-        user.setRole(UserRole.ADMIN);
+        user.setRole(UserRole.HOST);
         userRepository.save(user);
     }
 }

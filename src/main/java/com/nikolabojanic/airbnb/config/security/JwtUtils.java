@@ -1,12 +1,10 @@
 package com.nikolabojanic.airbnb.config.security;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Map;
-import java.util.function.Function;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import lombok.Getter;
@@ -39,7 +37,6 @@ public class JwtUtils {
 
     public SecretKey getKey() {
         byte[] decodedKey = Base64.getDecoder().decode(secretKey);
-        SecretKey originalKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, "HmacSHA256");
-        return originalKey;
+        return new SecretKeySpec(decodedKey, 0, decodedKey.length, "HmacSHA256");
     }
 }

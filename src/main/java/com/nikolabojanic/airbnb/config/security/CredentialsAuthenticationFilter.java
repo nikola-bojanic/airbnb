@@ -4,18 +4,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nikolabojanic.airbnb.dto.AuthDtoRequest;
 import com.nikolabojanic.airbnb.dto.AuthDtoResponse;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -52,13 +53,12 @@ public class CredentialsAuthenticationFilter extends AbstractAuthenticationProce
     @Override
     protected void successfulAuthentication(
         HttpServletRequest request, HttpServletResponse response, FilterChain chain,
-        Authentication authResult) throws IOException, ServletException {
-        UserDetails userDetails = (UserDetails) authResult.getPrincipal();
+        Authentication authResult) throws IOException {
+        User user = (User) authResult.getPrincipal();
         Map<String, Object> claims = new HashMap<>();
-        claims.put("username", userDetails.getUsername());
-        claims.put("roles", userDetails.getAuthorities());
+        claims.put("roles", user.getAuthorities());
         AuthDtoResponse authDtoResponse = new AuthDtoResponse(
-            jwtUtils.buildToken(claims, userDetails, jwtUtils.getJwtExpiration()));
+            jwtUtils.buildToken(claims, user, jwtUtils.getJwtExpiration()));
         String jsonResponse = objectMapper.writeValueAsString(authDtoResponse);
         response.setContentType("application/json");
         response.getWriter().write(jsonResponse);
