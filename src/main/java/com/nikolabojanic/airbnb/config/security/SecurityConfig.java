@@ -54,6 +54,7 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(registry -> registry
                 .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/users").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.PATCH, "/api/v1/users/{username}").hasAuthority("ADMIN")
                 .anyRequest().authenticated())
             .addFilterBefore(credentialsAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

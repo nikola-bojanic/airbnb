@@ -6,6 +6,7 @@ import com.nikolabojanic.airbnb.entity.UserEntity;
 import com.nikolabojanic.airbnb.enumeration.UserRole;
 import com.nikolabojanic.airbnb.exception.AirbnbEntityNotFoundException;
 import com.nikolabojanic.airbnb.repository.UserRepository;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,14 +19,34 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserConverter userConverter;
+    private final ApartmentService apartmentService;
+    private final ReservationService reservationService;
 
     public UserService(
         UserRepository userRepository,
         @Lazy PasswordEncoder passwordEncoder,
-        UserConverter userConverter) {
+        UserConverter userConverter,
+        ApartmentService apartmentService,
+        ReservationService reservationService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userConverter = userConverter;
+        this.apartmentService = apartmentService;
+        this.reservationService = reservationService;
+    }
+
+    public List<UserEntity> getAll() {
+        List<UserEntity> users = userRepository.findAll();
+        users.forEach(u -> {
+            long id = u.getId();
+            if (u.getRole().equals(UserRole.HOST)) {
+                u.setApartmentsForRent(apartmentService.findByGuestId(id));
+            } else if (u.getRole().equals(UserRole.GUEST)) {
+                u.setRentedApartments(apartmentService.findByGuestId(id));
+                u.setReservations(reservationService.findByGuestId(id));
+            }
+        });
+        return users;
     }
 
     public UserEntity findByUsername(String username) {
