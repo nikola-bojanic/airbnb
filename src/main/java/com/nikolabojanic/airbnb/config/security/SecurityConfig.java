@@ -56,6 +56,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/users").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.PATCH, "/api/v1/users/{username}").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/v1/apartments/host/{username}").hasAuthority("HOST")
                 .anyRequest().authenticated())
             .addFilterBefore(credentialsAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

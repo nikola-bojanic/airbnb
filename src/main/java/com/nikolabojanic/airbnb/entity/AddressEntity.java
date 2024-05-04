@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 public class AddressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(nullable = false)
     private String street;
     @Column(nullable = false)
@@ -20,5 +20,5 @@ public class AddressEntity {
     @Column(nullable = false)
     private String city;
     @Column(nullable = false)
-    private long zipcode;
+    private Long zipcode;
 }

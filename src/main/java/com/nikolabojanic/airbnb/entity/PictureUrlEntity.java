@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 public class PictureUrlEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(nullable = false)
     private String url;
     @ManyToOne

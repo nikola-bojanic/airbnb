@@ -7,7 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ApartmentRepository extends JpaRepository<ApartmentEntity, Long> {
-    List<ApartmentEntity> findByGuestId(long userId);
-
-    List<ApartmentEntity> findByHostId(long userId);
+    List<ApartmentEntity> findByHostUsername(String username);
 }

@@ -12,12 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ApartmentService {
     private final ApartmentRepository apartmentRepository;
+    private final ReservationService reservationService;
 
-    public List<ApartmentEntity> findByHostId(long userId) {
-        return apartmentRepository.findByHostId(userId);
-    }
-
-    public List<ApartmentEntity> findByGuestId(long userId) {
-        return apartmentRepository.findByGuestId(userId);
+    public List<ApartmentEntity> findByHostId(String username) {
+        List<ApartmentEntity> apartmentList = apartmentRepository.findByHostUsername(username);
+        apartmentList.forEach(a -> a.setReservations(
+            reservationService.findByReservationId(a.getId())
+        ));
+        return apartmentList;
     }
 }

@@ -19,40 +19,31 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserConverter userConverter;
-    private final ApartmentService apartmentService;
-    private final ReservationService reservationService;
 
     public UserService(
         UserRepository userRepository,
         @Lazy PasswordEncoder passwordEncoder,
-        UserConverter userConverter,
-        ApartmentService apartmentService,
-        ReservationService reservationService) {
+        UserConverter userConverter) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userConverter = userConverter;
-        this.apartmentService = apartmentService;
-        this.reservationService = reservationService;
     }
 
     public List<UserEntity> getAll() {
-        List<UserEntity> users = userRepository.findAll();
-        users.forEach(u -> {
-            long id = u.getId();
-            if (u.getRole().equals(UserRole.HOST)) {
-                u.setApartmentsForRent(apartmentService.findByGuestId(id));
-            } else if (u.getRole().equals(UserRole.GUEST)) {
-                u.setRentedApartments(apartmentService.findByGuestId(id));
-                u.setReservations(reservationService.findByGuestId(id));
-            }
-        });
-        return users;
+        return userRepository.findAll();
     }
 
     public UserEntity findByUsername(String username) {
         Optional<UserEntity> exists = userRepository.findByUsername(username);
         return exists.orElseThrow(() ->
             new AirbnbEntityNotFoundException("User with username: " + username + " doesn't exist")
+        );
+    }
+
+    public UserEntity findById(long id) {
+        Optional<UserEntity> exists = userRepository.findById(id);
+        return exists.orElseThrow(() ->
+            new AirbnbEntityNotFoundException("User with id: " + id + " doesn't exist")
         );
     }
 

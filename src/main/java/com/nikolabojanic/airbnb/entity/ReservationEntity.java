@@ -12,20 +12,22 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "reservation")
 @Getter
+@Setter
 public class ReservationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "apartment_id")
     private ApartmentEntity apartment;
     private LocalDate startDate;
-    private int numberOfNights;
-    private double totalPrice;
+    private Integer numberOfNights;
+    private Double totalPrice;
     @ManyToOne
     @JoinColumn(name = "guest_id")
     private UserEntity guest;

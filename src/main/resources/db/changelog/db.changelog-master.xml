@@ -181,10 +181,10 @@
             <column name="status" type="VARCHAR(25)">
             </column>
         </createTable>
-        <addForeignKeyConstraint baseTableName="reservation" baseColumnNames="guest_id"
+        <addForeignKeyConstraint baseTableName="reservation" baseColumnNames="apartment_id"
                                  constraintName="fk_reservation_apartment" referencedTableName="apartment"
                                  referencedColumnNames="id"/>
-        <addForeignKeyConstraint baseTableName="reservation" baseColumnNames="apartment_id"
+        <addForeignKeyConstraint baseTableName="reservation" baseColumnNames="guest_id"
                                  constraintName="fk_reservation_guest" referencedTableName="user"
                                  referencedColumnNames="id"/>
     </changeSet>

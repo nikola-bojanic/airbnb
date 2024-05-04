@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "guest_id")
     private UserEntity guest;
@@ -21,5 +21,5 @@ public class CommentEntity {
     @JoinColumn(name = "apartment_id")
     private ApartmentEntity apartment;
     private String text;
-    private int rating;
+    private Integer rating;
 }

@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 public class AmenityEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(nullable = false)
     private String name;
     @ManyToOne

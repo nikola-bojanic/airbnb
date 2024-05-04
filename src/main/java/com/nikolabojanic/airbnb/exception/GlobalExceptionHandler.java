@@ -27,6 +27,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return handleException(e, HttpStatus.BAD_REQUEST, request);
     }
 
+    @ExceptionHandler(value = AirbnbNotAuthorizedException.class)
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    public ResponseEntity<Object> handleAirbnbNotAuthorizedException(AirbnbNotAuthorizedException e,
+                                                                     WebRequest request) {
+        return handleException(e, HttpStatus.FORBIDDEN, request);
+    }
+
     @ExceptionHandler(value = RuntimeException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ResponseEntity<Object> handleRuntimeException(RuntimeException e, WebRequest request) {

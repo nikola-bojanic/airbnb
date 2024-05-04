@@ -7,9 +7,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ReservationDto {
-    private long id;
+public class ApartmentReservationDto {
+    private Long id;
     private LocalDate startDate;
-    private double totalPrice;
+    private Double totalPrice;
     private ReservationStatus status;
+    private ReservationUserDto user;
 }

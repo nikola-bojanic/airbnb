@@ -14,11 +14,11 @@ import jakarta.persistence.Table;
 public class LocationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(nullable = false)
-    private double latitude;
+    private Double latitude;
     @Column(nullable = false)
-    private double longitude;
+    private Double longitude;
     @OneToOne
     @JoinColumn(name = "address_id")
     private AddressEntity address;

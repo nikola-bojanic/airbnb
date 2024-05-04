@@ -12,8 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ReservationService {
     private final ReservationRepository reservationRepository;
+    private final UserService userService;
 
-    public List<ReservationEntity> findByGuestId(long userId) {
-        return reservationRepository.findByGuestId(userId);
+    public List<ReservationEntity> findByReservationId(long id) {
+        List<ReservationEntity> reservationList = reservationRepository.findByApartmentId(id);
+        reservationList.forEach(r -> r.setGuest(userService.findById(id)));
+        return reservationList;
     }
 }

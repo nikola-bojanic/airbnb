@@ -1,6 +1,7 @@
 package com.nikolabojanic.airbnb.converter;
 
 import com.nikolabojanic.airbnb.domain.UserDomain;
+import com.nikolabojanic.airbnb.dto.ReservationUserDto;
 import com.nikolabojanic.airbnb.dto.UserDto;
 import com.nikolabojanic.airbnb.dto.UserRegistrationRequestDto;
 import com.nikolabojanic.airbnb.dto.UserRegistrationResponseDto;
@@ -13,8 +14,6 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class UserConverter {
-    private final ReservationConverter reservationConverter;
-    private final ApartmentConverter apartmentConverter;
 
     public UserEntity convertRegistrationRequestToEntity(UserRegistrationRequestDto requestDto) {
         UserEntity userEntity = new UserEntity();
@@ -66,21 +65,15 @@ public class UserConverter {
         userDto.setLastName(user.getLastName());
         userDto.setRole(user.getRole());
         userDto.setGender(user.getGender());
-        if (user.getApartmentsForRent() != null) {
-            userDto.setApartmentsForRent(user.getApartmentsForRent().stream()
-                .map(apartmentConverter::convertEntityToDto)
-                .toList());
-        }
-        if (user.getRentedApartments() != null) {
-            userDto.setRentedApartments(user.getRentedApartments().stream()
-                .map(apartmentConverter::convertEntityToDto)
-                .toList());
-        }
-        if (user.getReservations() != null) {
-            userDto.setReservations(user.getReservations().stream()
-                .map(reservationConverter::convertEntityToDto)
-                .toList());
-        }
+        return userDto;
+    }
+
+    public ReservationUserDto convertEntityToReservationUserDto(UserEntity user) {
+        ReservationUserDto userDto = new ReservationUserDto();
+        userDto.setId(user.getId());
+        userDto.setUsername(user.getUsername());
+        userDto.setFirstName(user.getFirstName());
+        userDto.setLastName(user.getLastName());
         return userDto;
     }
 
